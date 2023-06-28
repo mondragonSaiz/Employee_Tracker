@@ -1,0 +1,42 @@
+DROP DATABASE IF EXISTS company_db;
+CREATE DATABASE company_db;
+
+USE company_db;
+
+CREATE TABLE department (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  name VARCHAR(30) NOT NULL
+ 
+);
+
+
+
+CREATE TABLE rol(
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(60) NOT NULL,
+  salary DECIMAL(19,4) NOT NULL,
+  department_id INT,
+  FOREIGN KEY (department_id)
+  REFERENCES department(id)
+  ON DELETE CASCADE
+  
+);
+
+ALTER TABLE rol AUTO_INCREMENT = 100;
+
+
+
+CREATE TABLE employee (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  first_Name VARCHAR(30) NOT NULL,
+  second_Name VARCHAR(30) NOT NULL,
+  role_id INT,
+  manager_id INT,
+  FOREIGN KEY (role_id) REFERENCES rol(id),
+  FOREIGN KEY (manager_id) REFERENCES employee(id)
+  ON DELETE CASCADE
+);
+ ALTER TABLE employee AUTO_INCREMENT = 200;
+
+
+
