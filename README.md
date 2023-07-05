@@ -26,6 +26,6 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 
 ### Link to walkthrough video:
-https://youtu.be/RZPi7rF5rNc
+[https://youtu.be/RZPi7rF5rNc](https://youtu.be/xPFFFNTt6c8)
 
 <img width="776" alt="Screen Shot 2023-06-28 at 13 35 10" src="https://github.com/mondragonSaiz/Employee_Tracker/assets/71055501/657bc2c8-8763-4dca-a0a9-3980bb4f40a0">
