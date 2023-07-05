@@ -40,6 +40,7 @@ const questions = [
       'View All departments',
       'Add Department',
       'Update Manager',
+      'Quit',
     ],
   },
 ];
@@ -56,7 +57,7 @@ const viewAllEmployees = () => {
   //console.log('This is the viewAllEmployees() funciton');
   const concatenatedName = 'CONCAT(first_name, " ", second_name)';
   db.query(
-    `SELECT e.id AS employeeID, e.first_name AS FirstName, e.second_name AS secondName, e.role_id AS roleID, IF(e.manager_id = m.id, CONCAT(m.first_name, ' ', m.second_name), NULL) AS manager_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id;`,
+    `SELECT e.id AS employeeID, e.first_name AS FirstName, e.second_name AS secondName, r.title as Title, d.name as Department, IF(e.manager_id = m.id, CONCAT(m.first_name, ' ', m.second_name), NULL) AS manager_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN rol r ON e.role_id = r.id JOIN department d ON r.department_id = d.id;`,
     function (err, results, fields) {
       if (err) {
         console.log(err);
@@ -69,7 +70,7 @@ const viewAllEmployees = () => {
 
 const addEmployee = () => {
   db.query(
-    'SELECT CONCAT(first_name, " ", second_name) AS full_name FROM employee WHERE manager_id IS NULL',
+    'SELECT CONCAT(first_name, " ", second_name) AS full_name FROM employee',
     function (err, results, fields) {
       const managerName = results.map((row) => row.full_name);
       //console.log('MANAGERS NAME', managerName);
@@ -99,7 +100,7 @@ const addEmployee = () => {
           {
             type: 'list',
             name: 'managerName',
-            message: 'Select the manager id of the employee',
+            message: 'Select the manager name of the employee',
             choices: managerName,
           },
         ];
@@ -177,7 +178,7 @@ const updateEmployeeRole = () => {
           {
             type: 'list',
             name: 'selectedEmployee',
-            message: "Which employee's role, would yo want to update?",
+            message: "Which employee's role would yo want to update?",
             choices: namesArray,
           },
           {
@@ -224,7 +225,7 @@ const updateEmployeeRole = () => {
 const viewAllRoles = () => {
   //console.log('This is the viewAllRoles(); funciton');
   db.query(
-    'SELECT id AS Rol_ID, title as Title , salary AS Salary, department_id as Department_ID FROM rol',
+    'SELECT r.id AS Rol_ID, r.title as Title , r.salary AS Salary, d.name as Department_Name FROM rol r JOIN department d ON r.department_id = d.id',
     function (err, results, fields) {
       console.table(results);
       initFunction();
@@ -372,6 +373,11 @@ const updateManager = () => {
   // db.query();
 };
 
+const quitProgramm = () => {
+  console.log('Exiting the program...');
+  process.exit(0);
+};
+
 const initFunction = () => {
   inquirer.prompt(questions).then((answ) => init(answ));
   const init = (answ) => {
@@ -399,6 +405,10 @@ const initFunction = () => {
         break;
       case 'Update Manager':
         updateManager();
+        break;
+      case 'Quit':
+        quitProgramm();
+        break;
       // case "Quit App":
       //   quitApp();
       //   break;
