@@ -57,7 +57,7 @@ const viewAllEmployees = () => {
   //console.log('This is the viewAllEmployees() funciton');
   const concatenatedName = 'CONCAT(first_name, " ", second_name)';
   db.query(
-    `SELECT e.id AS employeeID, e.first_name AS FirstName, e.second_name AS secondName, r.title as Title, d.name as Department, IF(e.manager_id = m.id, CONCAT(m.first_name, ' ', m.second_name), NULL) AS manager_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN rol r ON e.role_id = r.id JOIN department d ON r.department_id = d.id;`,
+    `SELECT e.id AS employeeID, e.first_name AS FirstName, e.second_name AS secondName, r.title as Title, r.salary as Salary, d.name as Department, IF(e.manager_id = m.id, CONCAT(m.first_name, ' ', m.second_name), NULL) AS manager_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN rol r ON e.role_id = r.id JOIN department d ON r.department_id = d.id;`,
     function (err, results, fields) {
       if (err) {
         console.log(err);
@@ -318,7 +318,7 @@ const updateManager = () => {
       //console.log('UPDATE MANAGER; EMPLOYEES NAME', employeeNames);
 
       db.query(
-        'SELECT CONCAT(first_name, " ", second_name) AS full_name FROM employee WHERE manager_id IS NULL',
+        'SELECT CONCAT(first_name, " ", second_name) AS full_name FROM employee;',
         function (err, results, fields) {
           if (err) {
             console.log(err);
